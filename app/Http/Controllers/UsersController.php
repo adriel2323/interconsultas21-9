@@ -10,6 +10,8 @@ use App\Repositories\UsersRepository;
 use App\User;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Users;
+use Illuminate\Support\Facades\Log;
 use Response;
 
 class UsersController extends AppBaseController
@@ -125,16 +127,32 @@ class UsersController extends AppBaseController
 
         $input = $request->all();
 
-        $input['password'] = bcrypt($input['password']);
+        if(!empty($input['password'])) {
+            $input['password'] = bcrypt($input['password']);
+        } else {
+            unset($input['password']);
+        }
+        
+        $img_data = file_get_contents($request->file('signature_image'));
+
+        $input['signature_image'] = base64_encode($img_data);
+
+        Log::info($input);
 
         $user = $this->usersRepository->update($input, $id);
 
         /*
          * Asigno el rol elegido
          */
-        $user = User::find($id);
+        $user = Users::find($id);
+
         $user->syncRoles([]);
+
         $user->assignRole($input['role']);
+
+        $user->update([
+            'signature_image' => $input['signature_image']
+        ]);
 
         Flash::success('Usuario actualizado correctamente.');
 

@@ -153,6 +153,16 @@
                 <h3>{!!str_replace("&NBSP;", " ", mb_strtoupper($surgicalProtocol->surgery_schema_description)) !!}</h3>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                    @if($surgicalProtocol->creator->signature_image != null)
+                        <div class="form-group col-sm-6">
+                            <img src="data:image/png;base64, {{ $surgicalProtocol->creator->signature_image }}" alt="Firma"/>
+                        </div>
+                    @endif
+                </div>
+            </div>
 
 
     </body>

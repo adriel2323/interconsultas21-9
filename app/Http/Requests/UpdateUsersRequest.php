@@ -27,6 +27,7 @@ class UpdateUsersRequest extends FormRequest
     {
         $rules = Users::$rules;
         $rules['email'] = 'required|unique:users,email,'.$this->get('id');
+        $rules['password'] = '';
         return $rules;
     }
 

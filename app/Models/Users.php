@@ -39,6 +39,7 @@ class Users extends BaseModel
         'name',
         'email',
         'password',
+        'signature_image'
     ];
 
     /**

@@ -32,6 +32,19 @@
     {!! Form::password('repeat_password', ['class' => 'form-control']) !!}
 </div>
 
+<!-- Name Field -->
+<div class="form-group col-sm-12">
+    <div class="form-group col-sm-6">
+        {!! Form::label('signature_image', 'Subir Firma: (FORMATO .JPG)') !!}
+        {!! Form::file('signature_image', null, ['class' => 'form-control']) !!}
+    </div>
+    
+</div>
+    @if($users->signature_image != null)
+        <div class="form-group col-sm-6">
+            <img src="data:image/png;base64, {{ $users->signature_image }}" alt="Firma"/>
+        </div>
+    @endif
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
