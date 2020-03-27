@@ -1,0 +1,91 @@
+// compileCompressed: ../css/slick-flash.css
+
+$success: #00ff03;
+$error: #ff0000;
+$warning: #ff6300;
+$info: #00C0FF;
+
+@keyframes animate-banner {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+@keyframes animate-line {
+    from {width: 0%;}
+    to {width: 100%;}
+}
+@keyframes animate-content {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.slick-flash {
+  font-family: arial;
+  text-align: center;
+  position:fixed;
+  z-index: 66;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  background-color: rgba(25, 25, 25, 0.49);
+  animation-name: animate-banner;
+  animation-duration: 2s;
+  .message-content {
+    margin: 20px 0;
+    animation-name: animate-content;
+    animation-duration: 1s;
+    .message-type {
+      font-size: 1.5em;
+      color: $success;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+    .message-body {
+      font-size: 1.2em;
+      color: #fff;
+      animation-name: animate-content;
+      animation-duration: 2s;
+
+    }
+  }
+  .line {
+    position: relative;
+    height: 3px;
+    background-color: $success;
+    animation-name: animate-line;
+    animation-duration: 1.3s;
+    margin: 0 auto;
+
+  }
+  &.success {
+    .message-type {
+      color: $success;
+    }
+    .line {
+      background-color: $success;
+    }
+  }
+  &.error {
+    .message-type {
+      color: $error;
+    }
+    .line {
+      background-color: $error;
+    }
+  }
+  &.warning {
+    .message-type {
+      color: $warning;
+    }
+    .line {
+      background-color: $warning;
+    }
+  }
+  &.information {
+    .message-type {
+      color: $info;
+    }
+    .line {
+      background-color: $info;
+    }
+  }
+}

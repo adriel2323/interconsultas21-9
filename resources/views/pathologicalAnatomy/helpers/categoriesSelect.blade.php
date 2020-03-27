@@ -1,0 +1,2 @@
+{!! Form::label("pathological_category_level_".$lvl."_id", "Categorìa ".$lvlInLetters) !!}
+{!! Form::select("pathological_category_level_".$lvl."_id", $categories, null, ['class' => 'form-control chosen-select']) !!}

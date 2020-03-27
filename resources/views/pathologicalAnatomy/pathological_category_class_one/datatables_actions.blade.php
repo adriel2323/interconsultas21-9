@@ -1,0 +1,19 @@
+{!! Form::open(['id' => $id, 'route' => ['pathologicalCategoryClassOne.destroy', $id], 'method' => 'delete']) !!}
+<div class='btn-group'>
+    <a href="{{ route('pathologicalCategoryClassOne.show', $id) }}" class='btn btn-default btn-xs'>
+        <i class="glyphicon glyphicon-eye-open"></i>
+    </a>
+    @can('pathologyCategoryClassOne.edit')
+        <a href="{{ route('pathologicalCategoryClassOne.edit', $id) }}" class='btn btn-warning btn-xs'>
+            <i class="glyphicon glyphicon-edit"></i>
+        </a>
+    @endcan
+    @can('pathologyCategoryClassOne.delete')
+        {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [
+            'type' => 'button',
+            'class' => 'btn btn-danger btn-xs',
+            'onclick' => "return confirmDelete({$id});return false;"
+        ]) !!}
+    @endcan
+</div>
+{!! Form::close() !!}

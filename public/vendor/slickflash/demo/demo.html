@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>jQuery Slick Flash Plugin Demos</title>
+    <link rel="stylesheet" href="../stylesheets/css/slick-flash.css" media="screen" title="no title" charset="utf-8">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../javascripts/slick-flash.js"></script>
+    <style media="screen">
+      html,body {
+        margin: 0;
+        width: 100%;
+        background-image: url("images/tweed.png");
+      }
+    </style>
+  </head>
+  <body>
+  <h1>jQuery Slick Flash Plugin Demos</h1>
+    <button type="button" name="button" class="information-test">Test information</button>
+    <button type="button" name="button" class="success-test">Test success</button>
+    <button type="button" name="button" class="error-test">Test error</button>
+    <button type="button" name="button" class="warning-test">Test warning</button>
+    <script type="text/javascript">
+      $('.information-test').click(function() {
+        $.slickFlash('information', 'This is an Information message.');
+      });
+      $('.success-test').click(function() {
+        $.slickFlash('success', 'This is a Success message.');
+      });
+      $('.error-test').click(function() {
+        $.slickFlash('error', 'This is an Error message.');
+      });
+      $('.warning-test').click(function() {
+        $.slickFlash('warning', 'This is a Warning message.');
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,152 @@
+<html>
+    <head>
+        <!-- Bootstrap 3.3.7 -->
+        <link rel="stylesheet" href="{{$_SERVER["DOCUMENT_ROOT"].'/vendor/bootstrap/css/bootstrap.min.css'}}">
+        <meta charset="utf-8" />
+        <title>Protocolo Quirurgico</title>
+        <style>
+            .page-break {
+                page-break-after: always;
+            }
+            html {
+                font-size: 8px;
+            }
+
+            .bordered {
+                border-top: 1px solid black;
+                border-left: 1px solid black;
+                border-right: 1px solid black;
+            }
+
+            .centered {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                    <img src="{{ $_SERVER["DOCUMENT_ROOT"]."/images/logo.png" }}" width="100px" height="100px">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 centered">
+                <h2>FUNDACIÓN NUESTRA SEÑORA DEL ROSARIO</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 centered">
+                <h3>HOJA QUIRURGICA</h3>
+            </div>
+        </div><br><br>
+
+        <div class="row">
+            <div class="col-sm-12 centered">
+                <div class="pull-left">
+                    <h3>Paciente: {{strtoupper($surgicalProtocol->surgeryEvent->EventData->patient_name)}}</h3>
+                </div>
+                <div class="pull-right">
+                    <h3>Obra Social: {{strtoupper($surgicalProtocol->surgeryEvent->EventData->Os->name)}}</h3>
+                </div>
+            </div>
+        </div>
+<br>
+        <div class="row">
+            <div class="col-sm-12 centered">
+                <div class="pull-left">
+                    <h3>Servicio: {{strtoupper($surgicalProtocol->service->name)}}</h3>
+                </div>
+                <div class="pull-right">
+                    <h3>Fecha: {{\Carbon\Carbon::parse($surgicalProtocol->start_date)->format('d/m/Y')}}</h3>
+                </div>
+            </div>
+        </div>
+<br>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-left">
+                    <h3>Hora de inicio: {{\Carbon\Carbon::parse($surgicalProtocol->start_date)->format('H:i')}}</h3>
+                </div>
+                <div class="pull-right">
+                    <h3>Hora de Finalización: {{\Carbon\Carbon::parse($surgicalProtocol->end_date)->format('H:i')}}</h3>
+                </div>
+            </div>
+        </div>
+<br>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-left">
+                    <h3>Cirujano: {{$surgicalProtocol->surgeryEvent->EventData->surgeon->name}}</h3>
+                </div>
+                <div class="pull-right">
+                    <h3>Anestesista:
+                        @foreach($surgicalProtocol->surgeryEvent->anesthesists as $anesthesist)
+                            {{ $anesthesist->name }} -
+                        @endforeach
+                    </h3>
+                </div>
+            </div>
+        </div>
+<br>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-left">
+                    <h3>Ayudantes:
+                        @foreach($surgicalProtocol->surgeryEvent->assistants as $assistant)
+                            {{ $assistant->name }} -
+                        @endforeach
+                    </h3>
+                </div>
+                <div class="pull-right">
+                    <h3>Instrumentadores:
+                        @foreach($surgicalProtocol->surgeryEvent->instrumentists as $instrumentist)
+                            {{ $instrumentist->name }} -
+                        @endforeach
+                    </h3>
+                </div>
+            </div>
+        </div>
+<br>
+        @if(!empty($surgicalProtocol->perfusionDoctor))
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="pull-left">
+                        <h3>Perfusión: {{$surgicalProtocol->perfusionDoctor->name}}</h3>
+                    </div>
+                </div>
+            </div>
+<br>
+        @endif
+
+        <div class="row">
+            <div class="col-sm-12 centered">
+                <div class="pull-left">
+                    <h3>Diagnóstico Preoperatorio: {{strtoupper($surgicalProtocol->pre_operatory_diagnostic)}}</h3>
+                </div>
+            </div>
+        </div>
+<br>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-left">
+                    <h3>Procedimiento Quirurgico: {{strtoupper($surgicalProtocol->surgical_procedure)}}</h3>
+                </div>
+            </div>
+        </div>
+<br>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="centered">
+                    <h3>Procedimiento Quirurgico</h3>
+                </div>
+                <p style="text-align: justify;font-size: 12px;">{!! mb_strtoupper($surgicalProtocol->surgery_schema_description) !!}</p>
+            </div>
+        </div>
+
+
+    </body>
+</html>

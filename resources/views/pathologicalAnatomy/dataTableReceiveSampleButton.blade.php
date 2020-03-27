@@ -1,0 +1,1 @@
+NO &nbsp; <button class="btn btn-primary" type="button" onclick="receiveSample({{$sampleId}});return false;">Recibir</button>

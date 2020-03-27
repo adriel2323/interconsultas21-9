@@ -1,0 +1,2 @@
+{{ Form::label('template_id', 'Plantilla: ') }}
+{{ Form::select('template_id', $category->templates->pluck('show_name','id'), null, ['class' => 'form-control chosen-select', 'onchange' => 'getTemplate();', 'placeholder' => 'Seleccione una plantilla']) }}

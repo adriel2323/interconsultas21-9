@@ -1,0 +1,28 @@
+
+.modal30 > .modal-dialog {
+    width:30% !important;
+}
+
+.modal40 > .modal-dialog {
+    width:40% !important;
+}
+
+.modal50 > .modal-dialog {
+    width:50% !important;
+}
+
+.modal60 > .modal-dialog {
+    width:60% !important;
+}
+
+.modal70 > .modal-dialog {
+    width:70% !important;
+}
+
+body > #standalone-container {
+    margin: 50px auto;
+    max-width: 720px;
+}
+#editor-container {
+    height: 350px;
+}
