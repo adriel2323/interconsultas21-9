@@ -65,7 +65,7 @@ class Users extends BaseModel
         'email' => 'required|unique:users,email',
         'password' => 'required|min:6',
         'repeat_password' =>'same:password',
-        'role' => 'required',
+        'roles' => 'required|min:1',
     ];
 
     public static $messages = [
@@ -75,7 +75,8 @@ class Users extends BaseModel
         'password.required' => 'El campo "Contraseña" es obligatorio',
         'password.min' => 'El campo "Contraseña" debe contener como mínimo 6 caracteres.',
         'repeat_password.same' => 'Las contraseñas no coinciden.',
-        'role.required' => 'El campo "Perfil" es obligatorio',
+        'roles.required' => 'El campo "Perfil" es obligatorio',
+        'roles.min' => 'Debe seleccionar al menos un perfil'
 
     ];
 

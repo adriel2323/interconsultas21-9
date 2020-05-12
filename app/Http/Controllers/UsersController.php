@@ -57,6 +57,11 @@ class UsersController extends AppBaseController
         $input = $request->all();
 
         $input['password'] = bcrypt($input['password']);
+        
+        if(isset($request->signature_image)) {
+            $img_data = file_get_contents($request->file('signature_image'));
+            $input['signature_image'] = base64_encode($img_data);
+        }
 
         /*Creo el Usuario*/
         $user = $this->usersRepository->create($input);
@@ -133,11 +138,10 @@ class UsersController extends AppBaseController
             unset($input['password']);
         }
         
-        $img_data = file_get_contents($request->file('signature_image'));
-
-        $input['signature_image'] = base64_encode($img_data);
-
-        Log::info($input);
+        if(isset($request->signature_image)) {
+            $img_data = file_get_contents($request->file('signature_image'));
+            $input['signature_image'] = base64_encode($img_data);
+        }
 
         $user = $this->usersRepository->update($input, $id);
 
@@ -146,13 +150,9 @@ class UsersController extends AppBaseController
          */
         $user = Users::find($id);
 
-        $user->syncRoles([]);
+        $user->forgetCachedPermissions();
 
-        $user->assignRole($input['role']);
-
-        $user->update([
-            'signature_image' => $input['signature_image']
-        ]);
+        $user->syncRoles($input['roles']);
 
         Flash::success('Usuario actualizado correctamente.');
 

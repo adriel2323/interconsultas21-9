@@ -10,6 +10,7 @@ use App\Repositories\ProfileRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Response;
 use Spatie\Permission\Models\Role;
 
@@ -123,6 +124,7 @@ class ProfileController extends AppBaseController
         }
 
         $input = $request->all();
+
         $input['guard_name'] = 'web';
 
         $profile = $this->profileRepository->update($input, $id);
@@ -169,6 +171,7 @@ class ProfileController extends AppBaseController
 
         $role = Role::findOrFail($request->id);
 
+        Log::info($request->permissions);
         $role->syncPermissions($request->permissions);
 
         Flash::success('Perfil actualizado correctamente.');

@@ -10,8 +10,8 @@
 
 <!-- Profile Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('role', 'Perfil:') !!}
-    {!! Form::select('role', \Spatie\Permission\Models\Role::all()->pluck('name','name'), null, ['class' => 'form-control chosen-select', 'placeholder' => "Por favor seleccione una opción"]) !!}
+    {!! Form::label('roles', 'Perfil:') !!}
+    {!! Form::select('roles[]', \Spatie\Permission\Models\Role::all()->pluck('name','name'), isset($users->roles) ? $users->roles->pluck('name') : null, ['class' => 'form-control chosen-select', 'multiple', 'placeholder' => "Por favor seleccione una opción"]) !!}
 </div>
 
 <!-- Email Field -->
@@ -40,7 +40,7 @@
     </div>
     
 </div>
-    @if($users->signature_image != null)
+    @if(isset($users) && $users->signature_image != null)
         <div class="form-group col-sm-6">
             <img src="data:image/png;base64, {{ $users->signature_image }}" alt="Firma"/>
         </div>
