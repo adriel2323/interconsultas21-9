@@ -110,7 +110,7 @@
         <div class="expirationMonth">{{$check->getMonth($check->expiration_date)->format('F')}}</div><!---->
         <div class="expirationYear">{{\Carbon\Carbon::parse($check->expiration_date)->format('Y')}}</div>
         <div class="beneficiary">{{$check->pay_name}}</div>
-        <div class="amountLetters">**{{NumerosEnLetras::convertir($check->amount)}}**</div>
+        <div class="amountLetters">**{{NumerosEnLetras::convertir(bcdiv($check->amount,1,2))}}**</div>
     </div>
     @if(isset($checks[$key+1]))
         <div class="newPage"></div>
