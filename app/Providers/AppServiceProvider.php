@@ -18,18 +18,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Carbon::setLocale(config('app.locale'));
-
-        $proxy_url    = getenv('PROXY_URL');
-        $proxy_schema = getenv('PROXY_SCHEMA');
-        
-        if(!empty($proxy_url)) {
-            URL::forceRootUrl($proxy_url);
-        }
-
-        if(!empty($proxy_schema)) {
-            URL::forceScheme($proxy_schema);
-        }
-
         
     }
 
