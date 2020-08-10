@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\URL;
+
 $proxy_url    = getenv('PROXY_URL');
 
 $proxy_schema = getenv('PROXY_SCHEMA');
