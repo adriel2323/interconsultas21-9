@@ -54,7 +54,7 @@
 
                     <div>
                         <h1><i class="fa fa-user-md"></i> Sistema de Interconsultas médicas</h1>
-                        <p>©2018 Clínica Nuestra Señora del Rosario de San Nicolás</p>
+                        <p>©{{ \Carbon\Carbon::now()->format('Y') }} Clínica Nuestra Señora del Rosario de San Nicolás</p>
                     </div>
                 </div>
             </section>

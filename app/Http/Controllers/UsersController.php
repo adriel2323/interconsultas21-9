@@ -148,7 +148,7 @@ class UsersController extends AppBaseController
         /*
          * Asigno el rol elegido
          */
-        $user = Users::find($id);
+        $user = User::find($id);
 
         $user->forgetCachedPermissions();
 
