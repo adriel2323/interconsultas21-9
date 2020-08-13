@@ -240,7 +240,7 @@ function getTemplateDescription(templateId)
 
 function addSignature()
 {
-    var html = "<div style='text-align: right'><img src='http://" + window.location.hostname +"/images/FirmaBrunas.png' width='300px' height='300px' /></div>";
+    var html = "<div style='text-align: right'><img src='/images/FirmaBrunas.png' width='300px' height='300px' /></div>";
 
     var currentText = editor.content.get();
     var newText = currentText + "<br>" + html + "<br>";
