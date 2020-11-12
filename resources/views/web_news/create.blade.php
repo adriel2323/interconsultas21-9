@@ -8,17 +8,18 @@
     </section>
     <div class="content">
         @include('adminlte-templates::common.errors')
+        @include('flash::message')
         <div class="box box-primary">
 
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'webNews.store']) !!}
-
-                        @include('web_news.fields')
-
-                    {!! Form::close() !!}
+                    @include('web_news.fields')
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="/js/WebNews/WebNews.js"></script>
 @endsection

@@ -65,7 +65,8 @@ class SurgeryEventService
                 ['id' => '6', 'title' => 'Quirófano 6'],
                 ['id' => '7', 'title' => 'Quirófano 7'],
                 ['id' => '8', 'title' => 'Hemodinamia 1'],
-                ['id' => '9', 'title' => 'Hemodinamia 2']
+                ['id' => '9', 'title' => 'Hemodinamia 2'],
+                ['id' => '10', 'title' => 'Oftalmología']
             ]
         ]);
 

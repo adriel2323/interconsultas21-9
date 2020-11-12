@@ -15,7 +15,7 @@
         <div class="clearfix"></div>
         <div class="box box-primary">
             <div class="box-body">
-                    @include('web_news.table')
+                @include('web_news.table')
             </div>
         </div>
         <div class="text-center">

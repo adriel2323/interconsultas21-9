@@ -8,7 +8,8 @@ use App\Http\Requests\CreateWebNewsRequest;
 use App\Http\Requests\UpdateWebNewsRequest;
 use App\Repositories\WebNewsRepository;
 use Flash;
-use App\Http\Controllers\AppBaseController;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 use Response;
 
 class WebNewsController extends AppBaseController
@@ -23,13 +24,27 @@ class WebNewsController extends AppBaseController
 
     /**
      * Display a listing of the WebNews.
-     *
-     * @param WebNewsDataTable $webNewsDataTable
      * @return Response
      */
-    public function index(WebNewsDataTable $webNewsDataTable)
+    public function index()
     {
-        return $webNewsDataTable->render('web_news.index');
+        $headers = [
+            'Authorization' => 'Bearer 1|RNeAi0JPktPRPtYw0cME7487V7lstzKcQjsH1bkc',
+            'Accept' => 'Application/json'
+        ];
+
+        $client = new Client([
+            // Base URI is used with relative requests
+            'base_uri' => 'https://fnsr.com.ar',
+            // You can set any number of default request options.
+            'timeout'  => 2.0,
+        ]);
+
+        $response = $client->request('GET', '/api/news', ['headers' => $headers]);
+
+        return view('web_news.index')->with([
+            'news' => json_decode($response->getBody())
+        ]);
     }
 
     /**
@@ -51,13 +66,41 @@ class WebNewsController extends AppBaseController
      */
     public function store(CreateWebNewsRequest $request)
     {
-        $input = $request->all();
+        $data = [
+            'image_url' => $request->imageUrl,
+            'title' => $request->title,
+            'short_description' => $request->shortDescription,
+            'extended_description' => $request->extendedDescription,
+            'show_until' => $request->showUntil
+        ];
 
-        $webNews = $this->webNewsRepository->create($input);
+        try {
 
-        Flash::success('Noticia web almacenada con éxito.');
+            $headers = [
+                'Authorization' => 'Bearer 1|RNeAi0JPktPRPtYw0cME7487V7lstzKcQjsH1bkc',
+                'Accept' => 'Application/json'
+            ];
 
-        return redirect(route('webNews.index'));
+            $client = new Client([
+                // Base URI is used with relative requests
+                'base_uri' => 'https://fnsr.com.ar',
+                // You can set any number of default request options.
+                'timeout'  => 2.0,
+            ]);
+
+            $res = $client->request('POST', '/api/news', [
+                'headers' => $headers,
+                'form_params' => $data
+            ]);
+
+            \Log::info($res->getStatusCode());
+            \Log::info($res->getBody());
+
+            Flash::success('Noticia web almacenada con éxito.');
+
+        } catch(\Exception $ex) {
+            throw new \Exception($ex->getMessage());
+        }
     }
 
     /**
@@ -134,18 +177,26 @@ class WebNewsController extends AppBaseController
      */
     public function destroy($id)
     {
-        $webNews = $this->webNewsRepository->findWithoutFail($id);
+        $headers = [
+            'Authorization' => 'Bearer 1|RNeAi0JPktPRPtYw0cME7487V7lstzKcQjsH1bkc',
+            'Accept' => 'Application/json'
+        ];
 
-        if (empty($webNews)) {
-            Flash::error('Noticia web no encontrada');
+        $client = new Client([
+            // Base URI is used with relative requests
+            'base_uri' => 'https://fnsr.com.ar',
+            // You can set any number of default request options.
+            'timeout'  => 2.0,
+        ]);
 
+        $response = $client->request('DELETE', '/api/news/'.$id, ['headers' => $headers]);
+
+        if($response->getStatusCode() == 200) {
+            Flash::success('Noticia web eliminada con éxito.');
             return redirect(route('webNews.index'));
         }
 
-        $this->webNewsRepository->delete($id);
-
-        Flash::success('Noticia web eliminada con éxito.');
-
+        Flash::error('Ocurrió un error al eliminar la noticia.');
         return redirect(route('webNews.index'));
     }
 }
