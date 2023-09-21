@@ -72,6 +72,7 @@ return [
             'password'  => env('DB_PASSWORD_HOSPITAL_EXTENSION'),
             'charset' => 'utf8',
             'prefix' => '',
+            'trust_server_certificate' => true,
         ],
 
         'Hospital' => [
@@ -83,6 +84,7 @@ return [
             'password'  => env('DB_PASSWORD_HOSPITAL'),
             'charset' => 'utf8',
             'prefix' => '',
+            'trust_server_certificate' => true,
         ],
 
         'Padron' => [
@@ -94,6 +96,7 @@ return [
             'password'  => env('DB_PASSWORD_PADRON'),
             'charset' => 'utf8',
             'prefix' => '',
+            'trust_server_certificate' => true,
         ],
 
     ],

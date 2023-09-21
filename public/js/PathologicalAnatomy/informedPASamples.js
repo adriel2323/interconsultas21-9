@@ -16,7 +16,8 @@ $(document).ready(function() {
             {
                 targets: 1,
                 data: 'patient_name',
-                name: 'patient_name'
+                name: 'patient_name',
+		searchable: true
             },
             {
                 targets: 2,

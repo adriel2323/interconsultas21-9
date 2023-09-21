@@ -139,7 +139,7 @@ class pathologicalAnatomyController extends Controller
 
     public function informedAPSamples()
     {
-        return view('pathologicalAnatomy.InformedSamples');
+	return view('pathologicalAnatomy.InformedSamples'); 
     }
 
     public function destroy($id)

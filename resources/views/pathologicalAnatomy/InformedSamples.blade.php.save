@@ -1,4 +1,4 @@
-@extends('layouts.app')
+e@extends('layouts.app')
 
 @section('content')
     <section class="content-header">
@@ -15,11 +15,6 @@
             <div class="box-body">
                 <div class="panel panel-info">
                     <div class="panel-body">
-                        <div class="form-group">
-                            <label for="search">Buscar:</label>
-                            <input type="text" name="q" id="search" class="form-control" placeholder="Ingrese el término de búsqueda">
-                        </div>
-                        <br>
                         <table class="table table-striped" id="informedPathologicalAnatomySamplesTable">
                             <thead>
                                 <tr>
@@ -41,3 +36,4 @@
 @section('scripts')
     {!! Html::script('/js/PathologicalAnatomy/informedPASamples.js') !!}
 @endsection
+

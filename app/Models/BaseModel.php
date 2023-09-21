@@ -11,7 +11,7 @@ class BaseModel extends \Eloquent
      */
     public function getDateFormat()
     {
-        return 'Y-m-d H:i:s';
+        return 'Y-m-d H:i:s.u';
     }
 
     /**

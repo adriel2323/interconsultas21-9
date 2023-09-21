@@ -2,164 +2,156 @@
 
 namespace App\Http\Controllers\pathologicalAnatomy;
 
-use App\DataTables\pathologicalAnatomy\PathologicalAnatomyTemplateDataTable;
-use App\Http\Requests;
-use App\Http\Requests\CreatePathologicalAnatomyTemplateRequest;
-use App\Http\Requests\UpdatePathologicalAnatomyTemplateRequest;
-use App\Models\pathologicalAnatomy\PapanicolaousTemplate;
-use App\Repositories\PathologicalAnatomyTemplateRepository;
-use Flash;
-use App\Http\Controllers\AppBaseController;
-use Response;
+use App\Http\Requests\pathologicalAnatomy\StorePathologicalAnatomyRequest;
+use App\Http\Requests\ReceivePASampleRequest;
+use App\Http\Requests\receivePathologicalAnatomySampleRequest;
+use App\Http\Requests\setPathologicalAnatomyCategoriesRequest;
+use App\Http\Requests\StorePALaboratoryMedicalReportRequest;
+use App\Http\Requests\UnValidatePAMedicalReportRequest;
+use App\Http\Requests\UpdatePALaboratoryMedicalReport;
+use App\Http\Requests\ValidatePAMedicalReportRequest;
+use App\Models\PALaboratorySample;
+use App\Models\pathologicalAnatomy\PathologicalAnatomyMedicalReport;
+use Facades\App\Services\PathologicalAnatomyService;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class PathologicalAnatomyTemplateController extends AppBaseController
+class pathologicalAnatomyController extends Controller
 {
-    /** @var  PathologicalAnatomyTemplateRepository */
-    private $pathologicalAnatomyTemplateRepository;
-
-    public function __construct(PathologicalAnatomyTemplateRepository $pathologicalAnatomyTemplateRepo)
+    public function index()
     {
-        $this->pathologicalAnatomyTemplateRepository = $pathologicalAnatomyTemplateRepo;
+        return view('pathologicalAnatomy.index');
     }
 
-    /**
-     * Display a listing of the PathologicalAnatomyTemplate.
-     *
-     * @param PathologicalAnatomyTemplateDataTable $pathologicalAnatomyTemplateDataTable
-     * @return Response
-     */
-    public function index(PathologicalAnatomyTemplateDataTable $pathologicalAnatomyTemplateDataTable)
+    public function dataTable()
     {
-        return $pathologicalAnatomyTemplateDataTable->render('pathologicalAnatomy.pathological_anatomy_templates.index');
+        return PathologicalAnatomyService::dataTable();
     }
 
-    /**
-     * Show the form for creating a new PathologicalAnatomyTemplate.
-     *
-     * @return Response
-     */
+    public function setCategoriesModal($sampleId)
+    {
+        $sample = PALaboratorySample::find($sampleId);
+        return view('pathologicalAnatomy.setCategoriesModal')->with(['sample' => $sample]);
+    }
+
+    public function setCategories($sampleId, setPathologicalAnatomyCategoriesRequest $data)
+    {
+        return PathologicalAnatomyService::setCategories($sampleId, $data);
+    }
+
+    public function createMedicalReport($sampleId)
+    {
+        return PathologicalAnatomyService::createMedicalReport($sampleId);
+    }
+
+    public function getMedicalReportTitle($titleId)
+    {
+        return PathologicalAnatomyService::getMedicalReportTitle($titleId);
+    }
+
+    public function getMedicalReportTemplates($categoryId)
+    {
+        return PathologicalAnatomyService::getMedicalReportTemplates($categoryId);
+    }
+
+    public function getMedicalReportTemplate($templateId)
+    {
+        return PathologicalAnatomyService::getMedicalReportTemplate($templateId);
+    }
+
+    public function storeMedicalReport($PALaboratoryId, StorePALaboratoryMedicalReportRequest $request)
+    {
+        return PathologicalAnatomyService::storeMedicalReport($PALaboratoryId, $request);
+    }
+
+    public function editMedicalReport($PALaboratoryId)
+    {
+        if(count($medicalReport = PathologicalAnatomyMedicalReport::where('pathological_anatomy_laboratory_sample_id', $PALaboratoryId)->get()) < 1) {
+            \Flash::error("Informe no encontrado");
+
+            return redirect('/pathologicalAnatomy');
+        }
+
+        return view('pathologicalAnatomy.editMedicalReportModal')->with('medicalReport', $medicalReport[0]);
+
+    }
+
+    public function updateMedicalReport($PALaboratoryId, UpdatePALaboratoryMedicalReport $request)
+    {
+        return PathologicalAnatomyService::updateMedicalReport($PALaboratoryId, $request);
+    }
+
+    public function printMedicalReport($sampleId)
+    {
+        if(null == $medicalReport = PathologicalAnatomyMedicalReport::where('pathological_anatomy_laboratory_sample_id', $sampleId)->get()) {
+            \Flash::error("Informe no encontrado");
+
+            return redirect('/pathologicalAnatomy');
+        }
+
+        return PathologicalAnatomyService::returnMedicalReportPDF($medicalReport[0]);
+    }
+
+    public function receiveSamples()
+    {
+        return view('pathologicalAnatomy.receiveSamples');
+    }
+
+    public function receiveSample(ReceivePASampleRequest $request)
+    {
+        return PathologicalAnatomyService::receiveSample($request->code);
+    }
+
+    public function printSticker($code)
+    {
+        return PathologicalAnatomyService::printSticker($code);
+    }
+
+    public function validateMedicalReport($sampleId, ValidatePAMedicalReportRequest $request)
+    {
+        return PathologicalAnatomyService::validateMedicalReport($sampleId);
+    }
+
+    public function unValidateMedicalReport($sampleId, UnValidatePAMedicalReportRequest $request)
+    {
+        return PathologicalAnatomyService::unValidateMedicalReport($sampleId);
+    }
+
     public function create()
     {
-        return view('pathologicalAnatomy.pathological_anatomy_templates.create');
+        return view('pathologicalAnatomy.create');
     }
 
-    /**
-     * Store a newly created PathologicalAnatomyTemplate in storage.
-     *
-     * @param CreatePathologicalAnatomyTemplateRequest $request
-     *
-     * @return Response
-     */
-    public function store(CreatePathologicalAnatomyTemplateRequest $request)
+    public function store(StorePathologicalAnatomyRequest $request)
     {
-        $input = $request->all();
-
-        $pathologicalAnatomyTemplate = $this->pathologicalAnatomyTemplateRepository->create($input);
-
-        Flash::success('Plantilla de informe creada con éxito.');
-
-        return redirect(route('pathologicalAnatomyTemplates.create'));
+        return PathologicalAnatomyService::store($request);
     }
 
-    /**
-     * Display the specified PathologicalAnatomyTemplate.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function show($id)
+    public function setBillingCodes($sampleId)
     {
-        $pathologicalAnatomyTemplate = $this->pathologicalAnatomyTemplateRepository->findWithoutFail($id);
-
-        if (empty($pathologicalAnatomyTemplate)) {
-            Flash::error('Plantilla de informe no encontrada');
-
-            return redirect(route('pathologicalAnatomyTemplates.index'));
-        }
-
-        return view('pathologicalAnatomy.pathological_anatomy_templates.show')->with('pathologicalAnatomyTemplate', $pathologicalAnatomyTemplate);
+        return view('pathologicalAnatomy.setBillingCodes')->with('sampleId', $sampleId);
     }
 
-    /**
-     * Show the form for editing the specified PathologicalAnatomyTemplate.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function edit($id)
+    public function informedAPSamplesTable()
     {
-        $pathologicalAnatomyTemplate = $this->pathologicalAnatomyTemplateRepository->findWithoutFail($id);
-
-        if (empty($pathologicalAnatomyTemplate)) {
-            Flash::error('Plantilla de informe no encontrada.');
-
-            return redirect(route('pathologicalAnatomyTemplates.index'));
-        }
-
-        return view('pathologicalAnatomy.pathological_anatomy_templates.edit')->with('pathologicalAnatomyTemplate', $pathologicalAnatomyTemplate);
+        return PathologicalAnatomyService::informedAPSamplesTable();
     }
 
-    /**
-     * Update the specified PathologicalAnatomyTemplate in storage.
-     *
-     * @param  int              $id
-     * @param UpdatePathologicalAnatomyTemplateRequest $request
-     *
-     * @return Response
-     */
-    public function update($id, UpdatePathologicalAnatomyTemplateRequest $request)
+    public function informedAPSamples()
     {
-        $pathologicalAnatomyTemplate = $this->pathologicalAnatomyTemplateRepository->findWithoutFail($id);
-
-        if (empty($pathologicalAnatomyTemplate)) {
-            Flash::error('Plantilla de informe no encontrada.');
-
-            return redirect(route('pathologicalAnatomyTemplates.index'));
-        }
-
-        $pathologicalAnatomyTemplate = $this->pathologicalAnatomyTemplateRepository->update($request->all(), $id);
-
-        Flash::success('Plantilla de informe actualizada con éxito.');
-
-        return redirect(route('pathologicalAnatomyTemplates.index'));
+        return view('pathologicalAnatomy.InformedSamples');
     }
 
-    /**
-     * Remove the specified PathologicalAnatomyTemplate from storage.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
     public function destroy($id)
     {
-        $pathologicalAnatomyTemplate = $this->pathologicalAnatomyTemplateRepository->findWithoutFail($id);
-
-        if (empty($pathologicalAnatomyTemplate)) {
-            Flash::error('Plantilla de informe no encontrada');
-
-            return redirect(route('pathologicalAnatomyTemplates.index'));
+        if(null == $sample = PALaboratorySample::find($id)) {
+            \Flash::error("Muestra no encontrada");
+            return redirect('/pathologicalAnatomy');
         }
 
-        $this->pathologicalAnatomyTemplateRepository->delete($id);
-
-        Flash::success('Plantilla de informe eliminada con éxito.');
-
-        return redirect(route('pathologicalAnatomyTemplates.index'));
-    }
-
-    public function papanicolaouDialogTemplate()
-    {
-        return view('pathologicalAnatomy.papanicolaouTemplate');
-    }
-
-    public function getPapanicolaouTemplateDescription($templateId)
-    {
-        $template = PapanicolaousTemplate::find($templateId);
-        $templateDescription = explode('-' , $template->description);
-        $templateDescription = trim($templateDescription[1]);
-        return $templateDescription;
+        $sample->delete();
+        \Flash::success("Muestra eliminada con éxito");
+        return redirect('/pathologicalAnatomy');
     }
 }
+

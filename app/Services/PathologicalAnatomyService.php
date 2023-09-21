@@ -255,27 +255,39 @@ class PathologicalAnatomyService
         return \Response::json("/pathologicalAnatomy/printSticker/" . $code, 200);
     }
 
-    public function informedAPSamplesTable()
-    {
-        return DataTables::of(PathologicalAnatomyMedicalReport::whereNotNull('validated_at')->with('pathologicalAnatomyLaboratorySample', 'pathologicalAnatomyLaboratorySample.patient', 'pathologicalAnatomyLaboratorySample.surgeryEvent' , 'validatedBy')->select('*'))
-                            ->editColumn("created_at", function(PathologicalAnatomyMedicalReport $row) {
-                                return Carbon::parse($row->created_at)->format('d/m/Y H:i');
-                            })
-                            ->addColumn('patient_name', function(PathologicalAnatomyMedicalReport $row) {
-                                return $this->findPatientName($row);
-                            })
-                            ->editColumn("validated_by", function(PathologicalAnatomyMedicalReport $row) {
-                                return $row->validatedBy->name;
-                            })
-                            ->editColumn("validated_at", function(PathologicalAnatomyMedicalReport $row) {
-                                return Carbon::parse($row->validated_at)->format('d/m/Y H:i');
-                            })
-                            ->addColumn('download', function(PathologicalAnatomyMedicalReport $row) {
-                                return "<a href='/pathologicalAnatomy/printMedicalReport/{$row->pathologicalAnatomyLaboratorySample->id}' target='_blank' class='btn btn-warning'><i class='fa fa-cloud-download'></i></a>";
-                            })
-                            ->rawColumns(['download'])
-                            ->make(true);
+public function informedAPSamplesTable()
+{
+    $query = PathologicalAnatomyMedicalReport::whereNotNull('validated_at')
+        ->with('pathologicalAnatomyLaboratorySample', 'validatedBy');
+
+    // Implementar la lógica de búsqueda si hay un término de búsqueda
+    $searchValue = request()->input('search.value');
+    if (!empty($searchValue)) {
+        $query->where(function ($q) use ($searchValue) {
+            $q->where('created_at', 'LIKE', '%' . $searchValue . '%')
+                ->orWhere('validated_by', 'LIKE', '%' . $searchValue . '%');
+        });
     }
+
+    return DataTables::of($query)
+        ->editColumn('created_at', function (PathologicalAnatomyMedicalReport $row) {
+            return Carbon::parse($row->created_at)->format('d/m/Y H:i');
+        })
+    	->addColumn('patient_name', function (PathologicalAnatomyMedicalReport $row) {
+            return $this->findPatientName($row); // Asegúrate de que este método devuelva el valor correcto para 'patient_name'.
+    	})
+        ->editColumn('validated_by', function (PathologicalAnatomyMedicalReport $row) {
+            return $row->validatedBy->name;
+        })
+        ->editColumn('validated_at', function (PathologicalAnatomyMedicalReport $row) {
+            return Carbon::parse($row->validated_at)->format('d/m/Y H:i');
+        })
+        ->addColumn('download', function (PathologicalAnatomyMedicalReport $row) {
+            return "<a href='/pathologicalAnatomy/printMedicalReport/{$row->pathologicalAnatomyLaboratorySample->id}' target='_blank'>Descargar</a>";
+        })
+        ->rawColumns(['download'])
+        ->make(true);
+}
 
     private function findPatientName($row)
     {

@@ -144,8 +144,8 @@ function setCategories(sampleId)
             location.href = "/pathologicalAnatomy";
         },
         error: function (data) {
-            var exeption = data.responseJSON;
-            addErrors(exeption.errors, '#results');
+            var exception = data.responseJSON;
+            addErrors(exception.errors, '#results');
         }
     });
 }
@@ -160,8 +160,8 @@ function receiveSample(sampleId)
             location.href = "/pathologicalAnatomy";
         },
         error: function (data) {
-            var exeption = data.responseJSON;
-            addErrors(exeption.errors, '#results');
+            var exception = data.responseJSON;
+            addErrors(exception.errors, '#results');
         }
     });
 }

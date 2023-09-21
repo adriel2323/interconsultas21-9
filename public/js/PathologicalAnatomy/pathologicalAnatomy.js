@@ -12,8 +12,8 @@ function bringSecondLevelCategories()
             $(".chosen-select").chosen();
         },
         error: function (data) {
-            var exeption = data.responseJSON;
-            addErrors(exeption.errors, '#results');
+            var exception = data.responseJSON;
+            addErrors(exception.errors, '#results');
         }
     });
 }
@@ -31,8 +31,8 @@ function bringThirdLevelCategoriesSelect()
             $(".chosen-select").chosen();
         },
         error: function (data) {
-            var exeption = data.responseJSON;
-            addErrors(exeption.errors, '#results');
+            var exception = data.responseJSON;
+            addErrors(exception.errors, '#results');
         }
     });
 }
@@ -49,8 +49,8 @@ function bringFourthLevelCategoriesSelect()
             $(".chosen-select").chosen();
         },
         error: function (data) {
-            var exeption = data.responseJSON;
-            addErrors(exeption.errors, '#results');
+            var exception = data.responseJSON;
+            addErrors(exception.errors, '#results');
         }
     });
 }
@@ -96,8 +96,8 @@ function makeSampleMedicalReport(sampleId)
             });
         },
         error: function (data) {
-            var exeption = data.responseJSON;
-            addErrors(exeption.errors, '#results');
+            var exception = data.responseJSON;
+            addErrors(exception.errors, '#results');
         }
     });
 }
@@ -143,8 +143,8 @@ function editSampleMedicalReport(sampleId)
             });
         },
         error: function (data) {
-            var exeption = data.responseJSON;
-            addErrors(exeption.errors, '#results');
+            var exception = data.responseJSON;
+            addErrors(exception.errors, '#results');
         }
     });
 }

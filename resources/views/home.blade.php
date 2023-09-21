@@ -15,12 +15,10 @@
             <div class="box-body">
                 <div class="panel panel-info">
                     <div class="panel-title">
-                        <h2>Actualización 14/02/19</h2>
+                        <h2>Actualización 16/06/23</h2>
                     </div>
                     <div class="panel-body">
-
-                        <p>En el día de la fecha se realizó una actualización importante.</p>
-                        <p>Si llegan a encontrar un error, por favor comunicarse con el departamento de sistemas.</p>
+                        <p>Sin novedades.</p>
                         <p>Muchas gracias.</p>
                     </div>
                 </div>

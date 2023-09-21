@@ -12,8 +12,8 @@ function getTitle()
                 $('#editor').focus();
             },
             error: function (data) {
-                var exeption = data.responseJSON;
-                addErrors(exeption.errors, '#results');
+                var exception = data.responseJSON;
+                addErrors(exception.errors, '#results');
             }
         });
     }
@@ -36,8 +36,8 @@ function getTemplateCategory()
             });
         },
         error: function (data) {
-            var exeption = data.responseJSON;
-            addErrors(exeption.errors, '#results');
+            var exception = data.responseJSON;
+            addErrors(exception.errors, '#results');
         }
     });
 }
@@ -56,8 +56,8 @@ function getTemplate()
 
             },
             error: function (data) {
-                var exeption = data.responseJSON;
-                addErrors(exeption.errors, '#results');
+                var exception = data.responseJSON;
+                addErrors(exception.errors, '#results');
             }
         });
     }
@@ -99,8 +99,8 @@ function storePathologicalAnatomyMedicalProtocol(sampleId)
             location.href = result;
         },
         error: function (data) {
-            var exeption = data.responseJSON;
-            addErrors(exeption.errors, '#results');
+            var exception = data.responseJSON;
+            addErrors(exception.errors, '#results');
         }
     });
 }
@@ -121,8 +121,8 @@ function updatePathologicalAnatomyMedicalProtocol(sampleId)
             location.href = "/pathologicalAnatomy";
         },
         error: function (data) {
-            var exeption = data.responseJSON;
-            addErrors(exeption.errors, '#results');
+            var exception = data.responseJSON;
+            addErrors(exception.errors, '#results');
         }
     });
 }
@@ -141,7 +141,7 @@ function validateMedicalReport(sampleId)
         },
         error: function(data) {
             var exception = data.responseJSON;
-            addErrors(exeption.errors);
+            addErrors(exception.errors);
         }
     });
 }
@@ -163,7 +163,7 @@ function unValidateMedicalReport(sampleId)
         },
         error: function(data) {
             var exception = data.responseJSON;
-            addErrors(exeption.errors);
+            addErrors(exception.errors);
         }
     });
 }
@@ -205,7 +205,7 @@ function papanicolausTemplateModal()
         },
         error: function(data) {
             var exception = data.responseJSON;
-            addErrors(exeption.errors);
+            addErrors(exception.errors);
         }
     });
 }
@@ -233,7 +233,7 @@ function getTemplateDescription(templateId)
         },
         error: function(data) {
             var exception = data.responseJSON;
-            addErrors(exeption.errors);
+            addErrors(exception.errors);
         }
     });
 }
